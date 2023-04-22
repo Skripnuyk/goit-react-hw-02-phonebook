@@ -1,6 +1,13 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Form, Label, Span, Input, AddButton } from './ContactForm.styled';
 
 class ContactForm extends Component {
+  
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     name: '',
     number: '',
@@ -16,19 +23,19 @@ class ContactForm extends Component {
     const { onSubmit } = this.props;
     onSubmit(this.state);
     this.reset();
-  }
+  };
 
   reset = () => {
-    this.setState ({name: '', number: ''})
-  }
+    this.setState({ name: '', number: '' });
+  };
   render() {
     const { name, number } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          <span>Name</span>
-          <input
+      <Form onSubmit={this.handleSubmit}>
+        <Label>
+          <Span>Name</Span>
+          <Input
             onChange={this.handleChange}
             type="text"
             name="name"
@@ -37,10 +44,10 @@ class ContactForm extends Component {
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
-        </label>
-        <label>
-          <span>Number</span>
-          <input
+        </Label>
+        <Label>
+          <Span>Number</Span>
+          <Input
             onChange={this.handleChange}
             type="tel"
             name="number"
@@ -49,9 +56,9 @@ class ContactForm extends Component {
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
           />
-        </label>
-        <button type="submit">Add contact</button>
-      </form>
+        </Label>
+        <AddButton type="submit">Add contact</AddButton>
+      </Form>
     );
   }
 }

@@ -1,18 +1,16 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { Report } from 'notiflix/build/notiflix-report-aio';
-import ContactForm from './contactForm/ContactForm';
-import ContactList from './contactList/ContactList';
-import Filter from './filter/Filter'
+import ContactForm from './contactForm';
+import ContactList from './contactList';
+import Filter from './filter';
+import { GlobalStyle } from './GlobalStyled';
+import { AppTitle, SecondTitle, AppWrap } from './App.styled';
+
 
 class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
 
@@ -44,23 +42,30 @@ class App extends Component {
   filtredContacts = () => {
     const { filter, contacts } = this.state;
     const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(({ name }) => name.toLowerCase().includes(normalizedFilter));
-  }
+    return contacts.filter(({ name }) =>
+      name.toLowerCase().includes(normalizedFilter)
+    );
+  };
 
   render() {
     const { filter } = this.state;
     const filtredContacts = this.filtredContacts();
+    const addContact = this.addContact;
+    const changeFilter = this.changeFilter;
+    const deleteContact = this.deleteContact;
+
     return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact} />
-        <h2>Contacts</h2>
-        <Filter filter={filter} changeFilter={this.changeFilter} />
+      <AppWrap>
+        <AppTitle>Phonebook</AppTitle>
+        <ContactForm onSubmit={addContact} />
+        <SecondTitle>Contacts</SecondTitle>
+        <Filter filter={filter} changeFilter={changeFilter} />
         <ContactList
           contacts={filtredContacts}
-          onDeleteContact={this.deleteContact}
+          onDeleteContact={deleteContact}
         />
-      </div>
+        <GlobalStyle />
+      </AppWrap>
     );
   }
 };
